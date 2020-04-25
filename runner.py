@@ -1,9 +1,6 @@
 import tensorflow as tf
-#from keras.applications.vgg16 import VGG16
 from keras.applications.resnet50 import ResNet50, preprocess_input
 from keras.preprocessing import image
-#import PIL
-#from PIL import Image
 from keras.models import Model
 from keras.layers import Dense, Input, subtract, concatenate, Lambda, add, maximum
 from keras import backend as K
