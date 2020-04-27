@@ -1,4 +1,4 @@
-id,anchor_img,pos_img
+id,anchor_img,pos_img,neg_img
 1,./lfw/Matt_Roney/Matt_Roney_0001.jpg,./lfw/Matt_Roney/Matt_Roney_0001.jpg,./lfw/Rulon_Gardner/Rulon_Gardner_0001.jpg
 2,./lfw/Nila_Ferran/Nila_Ferran_0001.jpg,./lfw/Nila_Ferran/Nila_Ferran_0001.jpg,./lfw/Matt_Roney/Matt_Roney_0001.jpg
 3,./lfw/Troy_Hudson/Troy_Hudson_0001.jpg,./lfw/Troy_Hudson/Troy_Hudson_0001.jpg,./lfw/Nila_Ferran/Nila_Ferran_0001.jpg
