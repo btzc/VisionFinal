@@ -17,13 +17,13 @@ json_file.close()
 encoding_network = model_from_json(loaded_model_json)
 encoding_network.load_weights('./saved_model/encoding_network_weights.h5')
 
-train_path1 = './train1.csv'
-TRAIN_INPUT_PATHS = [train_path1]
+test_path1 = './test1.csv'
+TEST_INPUT_PATHS = [test_path1]
 
-RECORD_DEFAULTS_TRAIN = [[0], [''], [''], ['']]
+RECORD_DEFAULTS_TEST = [[0], [''], [''], ['']]
 
 def decode_csv_train(line):
-   parsed_line = tf.decode_csv(line, RECORD_DEFAULTS_TRAIN)
+   parsed_line = tf.decode_csv(line, RECORD_DEFAULTS_TEST)
    anchor_path = parsed_line[1]
    pos_path  = parsed_line[2]
    neg_path    = parsed_line[3]
@@ -41,7 +41,7 @@ iterator = dataset.make_initializable_iterator()
 next_element = iterator.get_next()
 # Use the agnostic tensorflow session from Keras
 sess = K.get_session()
-sess.run(iterator.initializer, feed_dict={filenames: TRAIN_INPUT_PATHS})
+sess.run(iterator.initializer, feed_dict={filenames: TEST_INPUT_PATHS})
 while True:
     try:
       anchor_path, pos_path, neg_path = sess.run(next_element)
