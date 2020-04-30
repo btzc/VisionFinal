@@ -98,7 +98,7 @@ while True:
                                                 neg_img, axis=0)
             neg_encoding = encoding_network.predict([neg_encoding_net_test_inputs],
                                                 batch_size = 1,verbose = 1)
-            loss = Lambda(triplet_loss)([encoding_anchor, encoding_pos, encoding_neg])
+            loss = Lambda(triplet_loss)([anc_encoding, pos_encoding, neg_encoding])
             print("This is loss: ", loss)
             losses.append(loss)
 
