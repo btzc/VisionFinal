@@ -62,7 +62,7 @@ while True:
             pos_img = np.expand_dims(pos_img, axis=0)
             pos_img = preprocess_input(pos_img)
             encoding_net_test_inputs = np.append(encoding_net_test_inputs,
-                                                test_img, axis=0)
+                                                pos_img, axis=0)
             test_encoding = encoding_network.predict([encoding_net_test_inputs],
                                                 batch_size = 1,verbose = 1)
 
