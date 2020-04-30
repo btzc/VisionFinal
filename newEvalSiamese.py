@@ -39,6 +39,8 @@ dataset = dataset.shuffle(buffer_size=100000)
 dataset = dataset.batch(iterator_batch_size)
 iterator = dataset.make_initializable_iterator()
 next_element = iterator.get_next()
+# Use the agnostic tensorflow session from Keras
+sess = K.get_session()
 sess.run(iterator.initializer, feed_dict={filenames: TRAIN_INPUT_PATHS})
 while True:
     try:
