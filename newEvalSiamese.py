@@ -77,7 +77,7 @@ while True:
             anchor_img = np.expand_dims(anchor_img, axis=0)
             anchor_img = preprocess_input(anchor_img)
             anc_encoding_net_test_inputs = np.append(encoding_net_test_inputs,
-                                                anc_img, axis=0)
+                                                anchor_img, axis=0)
             anc_encoding = encoding_network.predict([anc_encoding_net_test_inputs],
                                                 batch_size = 1,verbose = 1)
 
