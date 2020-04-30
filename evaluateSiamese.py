@@ -28,8 +28,8 @@ encoding_network.load_weights('./saved_model/encoding_network_weights.h5')
 reader = pd.read_csv('./test1.csv', chunksize=1)
 
 # Load face encodings
-with open('anchor_encodings_dict.dat', 'rb') as f:
-    all_face_encodings = pickle.load(f)
+#with open('anchor_encodings_dict.dat', 'rb') as f:
+    #all_face_encodings = pickle.load(f)
 
 write_header = True
 
@@ -43,10 +43,12 @@ for chunk in reader:
     test_encoding = encoding_network.predict([encoding_net_test_inputs],
                                              batch_size = 1,
                                              verbose = 0)
+    print(test_encoding)
+    exit(0)
 
-    for (anchor_img_path, anchor_encoding) in all_face_encodings.items():
-        distance = np.linalg.norm(anchor_encoding - test_encoding)
-        chunk[anchor_img_path[-6:]] = distance  # only write the last 6 letters of each anchor path in the first row
+    #for (anchor_img_path, anchor_encoding) in all_face_encodings.items():
+        #distance = np.linalg.norm(anchor_encoding - test_encoding)
+        #chunk[anchor_img_path[-6:]] = distance  # only write the last 6 letters of each anchor path in the first row
 
     chunk.to_csv('test_set_prediction_results.csv', mode='a', header=write_header, index=False)
     write_header = False  # Update so later chunks don't write header
