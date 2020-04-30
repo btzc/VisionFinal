@@ -43,8 +43,6 @@ for chunk in reader:
     test_encoding = encoding_network.predict([encoding_net_test_inputs],
                                              batch_size = 1,
                                              verbose = 0)
-    print(test_encoding)
-    exit(0)
 
     #for (anchor_img_path, anchor_encoding) in all_face_encodings.items():
         #distance = np.linalg.norm(anchor_encoding - test_encoding)
