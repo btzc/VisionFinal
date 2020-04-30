@@ -11,24 +11,15 @@ import numpy as np
 from dataloader import load_train_test
 from evaluation import *
 
-def triplet_loss(inputs, dist='euclidean', margin='maxplus'):
+def triplet_loss(inputs):
     anchor, positive, negative = inputs
     positive_distance = K.square(anchor - positive)
     negative_distance = K.square(anchor - negative)
-    if dist == 'euclidean':
-        positive_distance = K.sqrt(K.sum(positive_distance, axis=-1, keepdims=True))
-        negative_distance = K.sqrt(K.sum(negative_distance, axis=-1, keepdims=True))
-    elif dist == 'sqeuclidean':
-        positive_distance = K.sum(positive_distance, axis=-1, keepdims=True)
-        negative_distance = K.sum(negative_distance, axis=-1, keepdims=True)
-    loss = positive_distance - negative_distance
-    if margin == 'maxplus':
-        loss = K.maximum(0.0, 2 + loss)
-    elif margin == 'softplus':
-        loss = K.log(1 + K.exp(loss))
-
-    returned_loss = K.mean(loss)
-    return returned_loss
+    positive_distance = K.get_value(K.sqrt(K.sum(positive_distance, axis=-1, keepdims=True)))
+    negative_distance = K.get_value(K.sqrt(K.sum(negative_distance, axis=-1, keepdims=True)))
+    if positive_distance < negative_distance:
+        return 1
+    return 0
 
 
 json_file = open('./saved_model/encoding_network_arch.json', 'r')
