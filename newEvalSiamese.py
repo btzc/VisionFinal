@@ -61,8 +61,10 @@ while True:
             pos_img = image.img_to_array(pos_img)
             pos_img = np.expand_dims(pos_img, axis=0)
             pos_img = preprocess_input(pos_img)
-            encoding_net_test_inputs = np.append(encoding_net_test_inputs, test_img, axis=0)
-            test_encoding = encoding_network.predict([encoding_net_test_inputs],batch_size = 1,verbose = 1)
+            encoding_net_test_inputs = np.append(encoding_net_test_inputs,
+                                                test_img, axis=0)
+            test_encoding = encoding_network.predict([encoding_net_test_inputs],
+                                                batch_size = 1,verbose = 1)
 
             neg_img = image.load_img(neg_path[j], target_size=(224, 224))
             neg_img = image.img_to_array(neg_img)
@@ -70,7 +72,6 @@ while True:
             neg_img = preprocess_input(neg_img)
             #neg_imgs = np.append(neg_imgs, neg_img, axis=0)
 
-        except tf.errors.OutOfRangeError:
-          print("Out of range error triggered (looped through training set).")
-          break
-
+    except tf.errors.OutOfRangeError:
+        print("Out of range error triggered (looped through training set).")
+        break
