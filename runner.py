@@ -149,7 +149,7 @@ sess = K.get_session()
 print(siamese_network.get_layer('model_1').get_layer('bn3d_branch2c').trainable, "  Should be TRUE")
 print(siamese_network.get_layer('model_1').get_layer('res3d_branch2c').trainable, "  Should be FALSE")
 
-nr_epochs = 1 
+nr_epochs = 25 
 for i in range(0, nr_epochs):
     print("\nnr_epoch: ", str(i), "\n")
     sess.run(iterator.initializer, feed_dict={filenames: TRAIN_INPUT_PATHS})
