@@ -1,3 +1,5 @@
+# reference: http://www.loheden.com/2018/07/face-recognition-with-siamese-network.html?fbclid=IwAR1XJnZTAV7twrLMJKS8ZUjtZ_5TXWppME6HOpxS8fCQRGpB2tiSpBVNWNg
+
 import tensorflow as tf
 from keras.applications.resnet50 import ResNet50, preprocess_input
 from keras.preprocessing import image
@@ -8,12 +10,6 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.optimizers import Adam, RMSprop
 from keras.models import load_model, model_from_json
 import numpy as np
-from dataloader import load_train_test
-from evaluation import *
-
-dataset = load_train_test()
-train = dataset['train']
-test = dataset['test']
 
 def triplet_loss(inputs, dist='euclidean', margin='maxplus'):
     anchor, positive, negative = inputs
@@ -85,6 +81,7 @@ model.get_layer('bn4d_branch2b').trainable = True
 model.get_layer('bn4d_branch2c').trainable = True
 model.get_layer('bn4e_branch2a').trainable = True
 model.get_layer('bn4e_branch2b').trainable = True
+
 model.get_layer('bn4e_branch2c').trainable = True
 model.get_layer('bn4f_branch2a').trainable = True
 model.get_layer('bn4f_branch2b').trainable = True
@@ -149,18 +146,14 @@ train_eval_score = 0
 # Use the agnostic tensorflow session from Keras
 sess = K.get_session()
 
-#print("bn3d_branch2c: (Should be same)\n",
-#      siamese_network.get_layer('model_1').get_layer('bn3d_branch2c').get_weights())
-#print("res3d_branch2c: (Should be same)\n",
-#      siamese_network.get_layer('model_1').get_layer('res3d_branch2c').get_weights())
 print(siamese_network.get_layer('model_1').get_layer('bn3d_branch2c').trainable, "  Should be TRUE")
 print(siamese_network.get_layer('model_1').get_layer('res3d_branch2c').trainable, "  Should be FALSE")
 
-nr_epochs = 25
+nr_epochs = 1 
 for i in range(0, nr_epochs):
     print("\nnr_epoch: ", str(i), "\n")
     sess.run(iterator.initializer, feed_dict={filenames: TRAIN_INPUT_PATHS})
-    while True:
+    while(True):
         try:
           anchor_path, pos_path, neg_path = sess.run(next_element)
 
@@ -171,33 +164,21 @@ for i in range(0, nr_epochs):
               #print(anchor_path)
               anchor_img = image.load_img(anchor_path[j], target_size=(224, 224))
               anchor_img = image.img_to_array(anchor_img)
-              #print(anchor_imgs.shape)
               anchor_img = np.expand_dims(anchor_img, axis=0)
-              #print(anchor_imgs.shape)
               anchor_img = preprocess_input(anchor_img)
               anchor_imgs = np.append(anchor_imgs, anchor_img, axis=0)
-              #print(anchor_img.shape)
 
-              #print(test_path)
               pos_img = image.load_img(pos_path[j], target_size=(224, 224))
               pos_img = image.img_to_array(pos_img)
               pos_img = np.expand_dims(pos_img, axis=0)
               pos_img = preprocess_input(pos_img)
               pos_imgs = np.append(pos_imgs, pos_img, axis=0)
-              #print(pos_img.shape)
 
               neg_img = image.load_img(neg_path[j], target_size=(224, 224))
               neg_img = image.img_to_array(neg_img)
               neg_img = np.expand_dims(neg_img, axis=0)
               neg_img = preprocess_input(neg_img)
               neg_imgs = np.append(neg_imgs, neg_img, axis=0)
-              #print(neg_img.shape)
-
-          #print("len(anchor_imgs): ", len(anchor_imgs))
-          #print("pos_imgs[0].shape: ", pos_imgs[0].shape)
-          #print("neg_imgs.shape: ", neg_imgs.shape)
-
-          #print(labels)
 
           # dummy output, needed for being able to run the fit(..) function
           z = np.zeros(len(anchor_path))
